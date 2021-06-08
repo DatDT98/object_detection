@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+
+service ObjectService {
+    rpc ViolateObjectDetect(ObjectRequest) returns (stream CountObjectResponse){}
+    rpc LeaveObjectDetect(ObjectRequest) returns (stream CountObjectResponse){}
+    rpc ForgotObjectDetect(ObjectRequest) returns (stream CountObjectResponse){}
+
+}
+
+message ObjectRequest {
+    string ws = 1;
+    repeated Area areas = 2;
+
+}
+
+message ObjectResponse {
+    string fps = 1;
+}
+message Area {
+    string area_id = 1;
+    Box detection_area = 2;
+}
+message CountObjectResponse {
+   repeated CountedObjectsByArea counted_Objects = 1;
+   float timestamp = 2;
+}
+
+message CountedObjectsByArea {
+    string area_id = 1;
+    int32 total_Object = 2;
+    repeated CountedObjects detail = 3;
+}
+
+message CountedObjects {
+    int32 count = 1;
+    string Object_type = 2;
+    repeated Box current_bounding_boxes = 3;
+}
+
+message Box {
+    int32 x = 1;
+    int32 y = 2;
+    int32 width = 3;
+    int32 height = 4;
+}
+
